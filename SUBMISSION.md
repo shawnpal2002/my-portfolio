@@ -16,7 +16,7 @@ Three prompts were used with Claude. The first generated the base structure; the
 
 ### Prompt 1 — Initial generation
 
-> Build me a responsive, single-page personal portfolio website for **Shawn Pal**, a Computer Science student and aspiring full-stack developer. Output everything in **one `index.html` file** with the CSS and JavaScript inlined.
+> Build me a responsive, single-page personal portfolio website for **Shawn Pal**, a Computer Science student and aspiring software developer. Output everything in **one `index.html` file** with the CSS and JavaScript inlined.
 >
 > Required sections:
 > - A sticky top navigation
@@ -29,25 +29,29 @@ Three prompts were used with Claude. The first generated the base structure; the
 >
 > Keep the layout responsive on mobile, use semantic HTML, and favour clean modern typography.
 
-### Prompt 2 — Dark mode iteration
+### Prompt 2 — Add hover lift on project cards
 
-> Change the colour scheme to a professional **Dark Mode** with accent colours. Use a deep near-black background (around `#0d1117`), slightly lighter card surfaces, and two accent colours: a violet (`#7c5cff`) and a teal (`#29d4c4`). Apply a subtle gradient glow behind the hero. The accent colours should be used for headings, the call-to-action button, and small highlights — not overused.
+> Add a hover effect to my project cards so they **lift up** when I move my mouse over them. The lift should be smooth (around 250–300 ms), include a soft shadow underneath the card, and the card border should change to the accent colour on hover. Make sure it doesn't make the layout jump on touch devices.
 
-### Prompt 3 — Hover lift on project cards
+### Prompt 3 — Premium light redesign
 
-> Add a hover effect to my project cards so they **lift up** when I move my mouse over them. The lift should be smooth (around 250ms), include a soft shadow underneath, and the card border should change to the violet accent on hover. Make sure it doesn't make the layout jump on touch devices.
+> I don't like the current colour scheme. Redesign the site for a **premium light theme** — no purple, no dark mode. Use a warm ivory background (around `#f6f3ec`), white card surfaces, and a single sophisticated accent (a deep sienna, around `#8a3a1f`) used sparingly for italics and hover states.
+>
+> For typography, switch to an **editorial serif/sans pairing**: use **Fraunces** for all headings (with italic variants for emphasis) and **Inter** for body text. Both via Google Fonts.
+>
+> Restructure the sections so each one has a small numbered label (`01 — About`, `02 — Skills`, etc.) on the left and the section title on the right. Replace the boxy stats block with a thin border-divided strip. Make the skills list a 3-column underlined list with skill levels (e.g. *advanced*, *comfortable*) shown in italic. Use generous whitespace throughout — think editorial magazine, not tech dashboard.
 
 ---
 
 ## 3. Self-Correction
 
-**What I asked Claude to fix:** the smooth-scroll behaviour for the in-page navigation links.
+**What I asked Claude to fix:** the entire visual direction — specifically the colour scheme and typography of the first version.
 
-**The issue:** the first version relied solely on the CSS `scroll-behavior: smooth` rule. While this works in modern browsers, it doesn't always feel consistent — and clicking a `#section` link still updates the URL hash, which can cause a sudden jump on some browsers before the smooth scroll kicks in. It also did nothing to gracefully handle a bare `#` href (which would scroll to the top abruptly).
+**The issue:** Claude's first version defaulted to a dark theme with a violet/teal accent palette and a system sans-serif font stack. While technically correct and visually clean, the result felt generic — closer to a developer-tool landing page than a personal portfolio. The violet accent in particular was overused for headings, buttons, and highlights, which made the page feel busy rather than considered.
 
-**The fix:** I asked Claude to add a small JavaScript handler that intercepts clicks on any `a[href^="#"]`, calls `preventDefault()`, and triggers `scrollIntoView({ behavior: 'smooth', block: 'start' })` on the target element. The handler also short-circuits when the href is just `#`, so it can't accidentally jump.
+**The fix:** I asked Claude to redesign with a **premium light theme**: warm ivory background, a single restrained sienna accent used only for italic emphasis and hover states, and an editorial typographic pairing of Fraunces (serif, with italics for the accent words) and Inter (sans for body). I also restructured each section to use a numbered label + title layout so the page reads more like a printed editorial spread.
 
-**Why this matters:** it makes the in-page navigation feel intentional and identical across browsers, and prevents a subtle UX bug where clicking a nav link would briefly flash to the top of the page before scrolling. Small thing, but it's the kind of polish that separates a hobby site from a professional one.
+**Why this matters:** the original brief asked for a *professional* portfolio. Professional doesn't automatically mean dark mode with neon accents — that aesthetic has become associated with dev tools and SaaS landing pages, not with personal portfolios that need to convey craft and care. Switching to a light editorial aesthetic with disciplined typography and a single accent colour produced something that feels considered and individual, not templated. It also taught me a useful prompting lesson: it's much more effective to give Claude a specific aesthetic reference (palette values, named fonts, layout structure) than to ask vaguely for "premium" or "professional" — those words mean very different things to different designers.
 
 ---
 
